@@ -1,4 +1,4 @@
-// Copyright 2019 Google Inc.
+// Copyright 2026 Google Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the “License”);
 // you may not use this file except in compliance with the License.
@@ -14,23 +14,13 @@
 'use strict';
 
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
-const execa = require('execa');
-
-const config = require('../../shared/config.js');
-const tempFilePath = require('../../shared/temp-file-path.js');
-const jsvuBinPath = config.binPath;
-
-const test = async ({ binary }) => {
-	const path = tempFilePath();
-	const program = `print('Hi!');\n`;
-	fs.writeFileSync(path, program);
-	console.assert(
-		(await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!'
-	);
-	console.assert(
-		(await execa(`${jsvuBinPath}/${binary}`, ['-e', program])).stdout === 'Hi!'
-	);
+const tempFilePath = (fileName = 'jsvu-test-input') => {
+	// Each call returns a filename in a unique directory.
+	const directoryPath = fs.mkdtempSync(path.join(os.tmpdir(), 'jsvu-'));
+	return path.join(directoryPath, fileName);
 };
 
-module.exports = test;
+module.exports = tempFilePath;

@@ -16,13 +16,13 @@
 const fs = require('fs');
 
 const execa = require('execa');
-const tempy = require('tempy');
 
 const config = require('../../shared/config.js');
+const tempFilePath = require('../../shared/temp-file-path.js');
 const jsvuBinPath = config.binPath;
 
 const test = async ({ binary, alias }) => {
-	const path = tempy.file();
+	const path = tempFilePath();
 	fs.writeFileSync(path, `print('Hi!');\n`);
 	console.assert(
 		(await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!'

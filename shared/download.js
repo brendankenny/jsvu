@@ -16,9 +16,9 @@
 const fs = require('fs');
 
 const ProgressBar = require('progress');
-const tempy = require('tempy');
 
 const get = require('./get.js');
+const tempFilePath = require('./temp-file-path.js');
 
 const download = async (url) => {
 	const bar = new ProgressBar('  [:bar] :percent', {
@@ -42,13 +42,7 @@ const download = async (url) => {
 	// Clear the progress bar.
 	console.log('\x1B[1A\x1B[2K\x1B[1A');
 	const buffer = Buffer.from(data);
-	// Passing in `name` ensures that `tempy` creates a temporary directory
-	// in which the file is created. Thus, we can later extract the archive
-	// within this same directory and use wildcards to move its contents,
-	// knowing that there are no other files in the directory.
-	const filePath = tempy.file({
-		name: 'jsvutmpf',
-	});
+	const filePath = tempFilePath();
 	fs.writeFileSync(filePath, buffer);
 	return filePath;
 }
