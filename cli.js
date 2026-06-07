@@ -17,8 +17,8 @@
 
 const os = require('os');
 
-const inquirer = require('inquirer');
 // TODO: ESM.
+const inquirer = require('inquirer').default;
 const updateNotifier = require('update-notifier').default;
 
 const pkg = require('./package.json');
@@ -70,7 +70,7 @@ const guessOs = () => {
 const promptOs = () => {
 	return inquirer.prompt({
 		name: 'step',
-		type: 'list',
+		type: 'select',
 		message: 'What is your operating system?',
 		choices: osChoices,
 		default: guessOs(),
