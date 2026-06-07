@@ -18,7 +18,8 @@
 const os = require('os');
 
 const inquirer = require('inquirer');
-const updateNotifier = require('update-notifier');
+// TODO: ESM.
+const updateNotifier = require('update-notifier').default;
 
 const pkg = require('./package.json');
 const log = require('./shared/log.js');
