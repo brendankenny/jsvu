@@ -20,39 +20,37 @@ const tempy = require('tempy');
 
 const get = require('./get.js');
 
-const download = (url) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const bar = new ProgressBar('  [:bar] :percent', {
-				complete: '=',
-				incomplete: ' ',
-				width: 72,
-				total: 100,
-			});
-			const response = await get(url, {
-				// Download as binary file.
-				encoding: null,
-			}).on('downloadProgress', (progress) => {
-				bar.update(progress.percent);
-			}).on('error', (error) => {
-				reject(`Download error: ${error}`);
-			});
-			// Clear the progress bar.
-			console.log('\x1B[1A\x1B[2K\x1B[1A');
-			const buffer = response.body;
-			// Passing in `name` ensures that `tempy` creates a temporary directory
-			// in which the file is created. Thus, we can later extract the archive
-			// within this same directory and use wildcards to move its contents,
-			// knowing that there are no other files in the directory.
-			const filePath = tempy.file({
-				name: 'jsvutmpf',
-			});
-			fs.writeFileSync(filePath, buffer);
-			resolve(filePath);
-		} catch (error) {
-			reject(error);
-		}
+const download = async (url) => {
+	const bar = new ProgressBar('  [:bar] :percent', {
+		complete: '=',
+		incomplete: ' ',
+		width: 72,
+		total: 100,
 	});
-};
+
+	let data;
+	try {
+		data = await get(url, {
+			onDownloadProgress: progress => {
+				bar.update(progress.percent);
+			},
+		}).arrayBuffer();
+	} catch (error) {
+		throw new Error(`Download error: ${error.message}`);
+	}
+
+	// Clear the progress bar.
+	console.log('\x1B[1A\x1B[2K\x1B[1A');
+	const buffer = Buffer.from(data);
+	// Passing in `name` ensures that `tempy` creates a temporary directory
+	// in which the file is created. Thus, we can later extract the archive
+	// within this same directory and use wildcards to move its contents,
+	// knowing that there are no other files in the directory.
+	const filePath = tempy.file({
+		name: 'jsvutmpf',
+	});
+	fs.writeFileSync(filePath, buffer);
+	return filePath;
+}
 
 module.exports = download;

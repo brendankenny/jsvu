@@ -22,10 +22,7 @@ const getLatestVersion = (os) => {
 		fileName}-dbg-latest.json`;
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await get(url, {
-				json: true,
-			});
-			const data = response.body;
+			const data = await get(url).json();
 			const version = data.version;
 			resolve(version);
 		} catch (error) {

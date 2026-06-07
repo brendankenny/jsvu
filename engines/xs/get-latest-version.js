@@ -17,10 +17,7 @@ const get = require('../../shared/get.js');
 
 const getLatestVersion = async () => {
 	const url = 'https://api.github.com/repos/Moddable-OpenSource/moddable/releases/latest';
-	const response = await get(url, {
-		json: true,
-	});
-	const data = response.body;
+	const data = await get(url).json();
 	const version = data.tag_name;
 	return version;
 };

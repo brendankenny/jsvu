@@ -13,12 +13,13 @@
 
 'use strict';
 
-const got = require('got');
+// TODO: ESM.
+const ky = require('ky').default;
 
 const pkg = require('../package.json');
 
 const get = (url, options) => {
-	return got(url, {
+	return ky(url, {
 		...options,
 		headers: {
 			'User-Agent': `${pkg.name}/${pkg.version} (+${pkg.homepage})`

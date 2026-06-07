@@ -24,10 +24,7 @@ const getLatestVersion = () => {
 	const url = 'https://product-details.mozilla.org/1.0/firefox_history_development_releases.json';
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await get(url, {
-				json: true
-			});
-			const data = response.body;
+			const data = await get(url).json();
 			// Don’t rely on the upstream sort order.
 			// https://github.com/GoogleChromeLabs/jsvu/issues/65
 			let latestVersion = 0;

@@ -18,8 +18,8 @@ const get = require('./get.js');
 const matchResponse = ({ url, regex }) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			const response = await get(url);
-			const version = regex.exec(response.body)[1];
+			const data = await get(url).text();
+			const version = regex.exec(data)[1];
 			resolve(version);
 		} catch (error) {
 			reject(error);

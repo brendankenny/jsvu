@@ -28,10 +28,7 @@ const hashToRevision = async (hash) => {
 const getLatestCommitHashOrRevisionFromBuilder = async (builderId) => {
 	const url = `https://build.webkit.org/api/v2/builders/${builderId
 	}/builds?order=-number&limit=1&property=got_revision&complete=true&results=0`;
-	const response = await get(url, {
-		json: true,
-	});
-	const data = response.body;
+	const data = await get(url).json();
 	const hash = data.builds[0].properties.got_revision[0];
 	// Confusingly, `hash` is either a commit hash (seemingly for modern
 	// builders) or a revision number (for older builders).

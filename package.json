@@ -18,7 +18,7 @@
 		"README.md"
 	],
 	"engines": {
-		"node": ">=18.0.0"
+		"node": ">=22.0.0"
 	},
 	"scripts": {
 		"test": "echo 'Use `npm run test-$os` where `$os` reflects your system.'; echo 'See `npm run` for the full list.' && exit 1",
@@ -48,8 +48,8 @@
 		"extract-zip": "^1.6.7",
 		"fs-extra": "^8.1.0",
 		"glob": "^7.1.4",
-		"got": "^9.6.0",
 		"inquirer": "^6.5.1",
+		"ky": "^2.0.2",
 		"progress": "^2.0.3",
 		"tar": "^7.5.16",
 		"tempy": "^0.5.0",

@@ -17,10 +17,7 @@ const get = require('../../shared/get.js');
 
 const getLatestVersion = async () => {
 	const url = 'https://api.github.com/repos/quickjs-ng/quickjs/releases/latest';
-	const response = await get(url, {
-		json: true,
-	});
-	const data = response.body;
+	const data = await get(url).json();
 	const version = data.tag_name.replace(/^v/, '');
 	return version;
 };
