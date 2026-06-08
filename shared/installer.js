@@ -13,10 +13,10 @@
 
 'use strict';
 
+const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 
-const glob = require('glob');
 const tildify = require('tildify');
 
 const config = require('../shared/config.js');
@@ -63,7 +63,7 @@ class Installer {
 		return true;
 	}
 	installLibraryGlob(pattern) {
-		const filePaths = glob.sync(`${this.sourcePath}/${pattern}`);
+		const filePaths = fs.globSync(`${this.sourcePath}/${pattern}`);
 		for (const filePath of filePaths) {
 			const fileName = path.relative(this.sourcePath, filePath);
 			this.installLibrary(fileName);
